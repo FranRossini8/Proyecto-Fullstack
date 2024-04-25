@@ -15,19 +15,24 @@ const usrSchema = new Schema({
         requiered:true
     },
     isActive:{
-        type:String,
-        requiered:true
+        type:Boolean,
+        requiered:true,
+        default:true
     },
     roles:{
-        type:String,
+        type:Array,
         requiered:true,
-        default:'user'
+        default:['user']
     },
     password:{
         type:String,
         requiered:true
-    }
-   
+    },
+    peluches:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'peluches'
+    }]
+    
 },{ timestamps:true }).set('toJSON',{
     transform: (document, object) => {
         object.id = document.id;

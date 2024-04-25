@@ -11,13 +11,12 @@ const pelucheSchema = new Schema({
     },
     accesorios:{
         type:String
-        
+  
     },
     coloresDisponibles:{
         type:String
     }
-    
-    
+  
 },{ timestamps:true }).set('toJSON',{
     transform: (document, object) => {
         object.id = document.id;

@@ -48,7 +48,7 @@ const getUser = async(id) => {
 
 const editUser = async(user) => {
 
-    const result = await Usr.findByIdAndUpdate(user._id,user,{new:true});
+    const result = await Usr.findOneAndUpdate({ email:user.email },user,{new:true});
 
     return result;
 }
@@ -66,41 +66,12 @@ const deleteUser = async(id) => {
 
     return result;
 }
-/*
 
-//OBTENER LOS MAILS DE TODOS LOS USUARIOS
-router.get('/', async(req, res) => {
-    try{
-        const usuarios = await user.find();
-        res.json(usuarios.map(user => user.email));
+const getUserByEmail = async(email,req,res) => {
 
-    } catch(err){
-        res.status(500).json({ message: err.message});
-    }
-});
+    const user = await Usr.findOne({ email:email });
 
-async function getUserByEmail(req, res, next){
-    let user;
-    
-    try{
-        user = await user.findOne({ email:req.params.email});
-        if(user == null){
-            return res.status(400).json({ message: 'No se puede encontrar el usuario' });
-        }
-    } catch(err){
-        return res.status(500).json({ message: err.message});
-    }
-    res.user = user;
-    next();
+    return user.toObject();
 }
 
-//OBTENER UN USUARIO POR MAIL
-router.get('/:email',getUserByEmail, (req, res) => {
-    res.json(res.user);
-});*/
-
-
-
-
-
-module.exports = { addUser, getAllUsers, getUser, editUser, editRoles, deleteUser }
+module.exports = { addUser, getAllUsers, getUser, editUser, editRoles, deleteUser, getUserByEmail }

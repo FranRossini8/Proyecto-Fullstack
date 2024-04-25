@@ -1,4 +1,5 @@
 require('mongoose');
+const peluche = require('../Models/peluches');
 const pel = require('../Models/peluches');
 
 const addPeluche = async(tipo, accesorios, coloresDisponibles, nombre) => {
@@ -43,5 +44,7 @@ const deletePeluche = async(nombre) => {
 
     return resultado;
 }
+
+
 
 module.exports =  {addPeluche,getTodosPeluches,getUnPeluche,editPeluche,deletePeluche}

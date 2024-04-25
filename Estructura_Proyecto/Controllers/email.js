@@ -1,8 +1,8 @@
+/*
 const express = requiere('express');
 const router = express.Router();
 const user = requiere('../Models/user');
 
-//OBTENER LOS MAILS DE TODOS LOS USUARIOS
 router.get('/', async(req, res) => {
     try{
         const usuarios = await user.find();
@@ -13,7 +13,6 @@ router.get('/', async(req, res) => {
     }
 });
 
-//OBTENER UN USUARIO POR MAIL
 router.get('/:email',getUserByEmail, (req, res) => {
     res.json(res.user);
 });
@@ -34,3 +33,4 @@ async function getUserByEmail(req, res, next){
 }
 
 module.exports = router;
+*/
