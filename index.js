@@ -7,10 +7,15 @@ const PORT = process.env.PORT || 8000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.DB_URL;
 const mongoose = require("mongoose");
+const router = express.Router();
 /******/
 const peluches = require("./Estructura_Proyecto/Controllers/peluches");
 const user = require("./Estructura_Proyecto/Controllers/user");
+const auth = require("./Estructura_Proyecto/Controllers/auth");
+const jwt = require('jsonwebtoken');
 const { send } = require("process");
+const authenticateToken = require("./Estructura_Proyecto/Middleware/autenticateToken");
+const rank = require("./Estructura_Proyecto/Controllers/ranking");
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -173,6 +178,31 @@ app.delete("/user/:id",async(req,res) => {
     send.status(500).send("Ha ocurrido un error intentando borrar el usuario");
   }
 });
+
+//REGISTRARSE
+app.post("/register",auth.registrar);
+
+//INICIAR SESION
+app.post("/login", auth.logearse);
+
+//RANKING DE LOS PELUCHES MAS PERSONALIZADOS
+app.get("/ranking", rank.ranking);
+
+//ENDPOINT PRIVADO, CREACION DE PELUCHE
+app.post("/creacion",authenticateToken, async(req,res) => {
+  let nombre = req.body.nombre;
+  let tipo = req.body.tipo;
+  let accesorios = req.body.accesorios;
+  let coloresDisponibles = req.body.coloresDisponibles;
+  try{
+    const nuevoPeluche = await peluches.addPeluche(tipo,accesorios,coloresDisponibles,nombre);
+    await user.editUser(req.user.email, {$push: {peluches:nuevoPeluche._id}});
+    res.status(201).json(nuevoPeluche);
+  }catch(err){
+    console.log(err);
+    res.status(400).json({message:err.message});
+  }
+})
 
 app.listen(PORT,()=>{
     console.log(`servidor corriendo ${PORT}`);
