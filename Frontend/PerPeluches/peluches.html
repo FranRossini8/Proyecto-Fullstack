@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="pel.css">
+</head>
+<body> 
+    <div class="PerPeluche">
+        <div class="header">
+            <p>Personliza tu peluche</p>
+        </div>    
+        <div class="seleccion">
+            <div class="imagen"></div>
+        </div>
+        <div class="personalizacion">
+            <div class="tipo">
+                <p>Tipo:</p>
+                    <div class="gato">
+                        <input class="radio" type="radio" name="tipo" value="Gato">
+                        <img src="../PerPeluches/imagenes/gato.jfif" >
+                    </div>
+                    <div class="perro">
+                        <input class="radio" type="radio" name="tipo" value="Perro">
+                        <img src="../PerPeluches/imagenes/perro.jfif" >
+                    </div>
+                    <div class="conejo">
+                        <input class="radio" type="radio" name="tipo" value="Conejo">
+                        <img src="../PerPeluches/imagenes/conejo.jpg" >
+                    </div>
+                    <div class="oso">
+                        <input class="radio" type="radio" name="tipo" value="Oso">
+                        <img src="../PerPeluches/imagenes/oso.jfif" >
+                    </div>
+                    <div class="mapache">
+                        <input class="radio" type="radio" name="tipo" value="Mapache">
+                        <img src="../PerPeluches/imagenes/mapache.jfif" >
+                    </div>        
+            </div>
+            <div class="color">
+                <p>Color:</p>
+                <div class="amarillo">
+                    <input class="radio1" type="radio" name="color" value="Amarillo">
+                    <img src="../PerPeluches/imagenes/amarillo.jpg" alt="">
+                </div>
+                <div class="rosa">
+                    <input class="radio1" type="radio" name="color" value="Rosa">
+                    <img src="../PerPeluches/imagenes/rosa.png" alt="">
+                </div>
+                <div class="verde">
+                    <input class="radio1" type="radio" name="color" value="Verde">
+                    <img src="../PerPeluches/imagenes/verde.jpg" alt="">
+                </div>
+            </div>
+            <div class="accesorio">
+                <p>Accesorios:</p>
+                <div class="guitarra">
+                    <input class="radio2" type="radio" name="acce" value="Guitarra Electrica">
+                    <img src="../PerPeluches/imagenes/guitarra.png" alt="">
+                </div>
+                <div class="pelota">
+                    <input class="radio2" type="radio" name="acce" value="Pelota y Camiseta de futbol">
+                    <img src="../PerPeluches/imagenes/pelota.png" alt="">
+                </div>
+                <div class="notebook">
+                    <input class="radio2" type="radio" name="acce" value="Notebook">
+                    <img src="../PerPeluches/imagenes/notebook.png" alt="">
+                </div>
+            </div>
+            <label for="NombrePeluche">Nombre:</label> 
+            <input class="NomPel" id="nombrePelu" placeholder="Nombre">
+            <div class="guardar">
+                <br>
+                <button>Guardar peluche</button>
+            </div>
+            <div id="mensajeCreado"></div> 
+        </div>
+        <div class="footer">
+            <div class="inicio">
+                <a href="../Inicio/PrinScreen.html">Inicio</a>
+            </div>
+            <div class="perfil">
+                <a href="../Perfil/pelus.html">Perfil</a>
+            </div>    
+        </div>
+    </div>
+    <script >
+    
+    document.addEventListener('DOMContentLoaded', (e) => {
+        console.log("entre al dom")
+        const botonCrear = document.querySelector('.guardar');
+        const token = sessionStorage.getItem('token');
+
+        botonCrear.addEventListener('click',() => {
+            console.log("entre al guardar");
+            const tipoPel = document.querySelector('input[name=tipo]:checked')?.value;
+            const colorPel = document.querySelector('input[name=color]:checked')?.value;
+            const accesorioPel = document.querySelector('input[name=acce]:checked')?.value;
+            const nombrePel = document.getElementById('nombrePelu').value
+            
+            valores = {
+                tipo:tipoPel,
+                coloresDisponibles:colorPel,
+                accesorios:accesorioPel,
+                nombre:nombrePel
+            }
+
+fetch("http://localhost:8080/creacion",  {
+    method:'POST',
+    body:JSON.stringify(valores),
+    mode:'cors',
+    headers: new Headers({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization':`Bearer ${token}`,
+        'Content-type':'application/json'
+    })
+})
+.then(response => {
+    const mensajeRegistro = document.getElementById('mensajeCreado');
+        if(response.status === 201){
+            mensajeRegistro.textContent = 'Peluche creado!!';
+        }else{
+            mensajeRegistro.textContent = 'Error';
+        }
+    })
+    })      
+})
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+.negocio{
+    display: flex;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    align-items: center;
+    background-color: rgb(106, 182, 135);
+    width: 100%;
+    padding: 1vh;
+}
+.misPelus{
+    display: flex;
+    flex-direction: row;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 1px solid black;
+    height: auto;
+    width: auto;
+    background-color: lightgray;
+}
+.peluche-item{
+    display: flex;
+    flex-direction: column;
+    width: 35vh;
+    height: 60vh;
+    justify-content: center;
+    padding: 1vh;
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin: 1vh;
+}
+.footer{
+    display: grid;
+    flex-direction: column;
+    background-color: rgb(106, 182, 135);
+    width: 100%;
+    height: 30vh;
+}
+.footer a{
+    text-decoration: none;
+    font-size: 4vh;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.footer a:hover{
+    box-shadow: 0 0 0.5vh 0 black;
+    width: 20vh;
+    height: 10vh;
+}
+.pantPrin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.personPeluches{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.borrarPeluches{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.photo-item{
+    display: flex;
+}
+.photo-item img{
+    height: 20vh;
+    width: 20vh;
+}
+.acce-item{
+    display: flex;
+}
+.acce-item img{
+    height: 15vh;
+    width: 20vh;
+}
+.peluche-item:hover{
+    border: 2px solid rgb(93, 78, 109);
+    border-color: rgb(93, 78, 109);
+    box-shadow: 0 0 0 5px rgba(93, 78, 109, 0.399);
+    color: rgb(93, 78, 109);
+}
+@media screen and (max-width: 768px) {
+    .misPelus {
+        display: flex;
+        flex-direction: column;
+    }
+    .peluche-item{
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+        width: 40vh;
+    }
+}

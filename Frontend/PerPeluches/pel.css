@@ -1,0 +1,194 @@
+.perPeluche{
+    display: flex;
+    flex-direction: row;
+}
+.seleccion{
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+.personalizacion{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*width: 60%;*/
+    background-color: lightgray;
+    width: 100%;
+    height: 60vh;
+}
+/*ANIMALES*/
+.tipo{
+    display: flex;
+    flex-direction: row;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+.gato{
+    margin-right: 1vh;
+    margin-left: 1vh;
+}
+.perro{
+    margin-right: 1vh;
+}
+.conejo{
+    margin-right: 1vh;
+}
+.oso{
+    margin-right: 1vh;
+}
+.mapache{
+    margin-right: 1vh;
+}
+.gato img{
+    height: 15vh;
+    width: 15vh;
+}
+.perro img{
+    height: 15vh;
+    width: 15vh;
+}
+.conejo img{
+    height: 15vh;
+    width: 15vh;
+}
+.oso img{
+    height: 15vh;
+    width: 15vh;
+}
+.mapache img{
+    height: 15vh;
+    width: 15vh;
+}
+/*COLORES*/
+.color{
+    display: flex;
+    flex-direction: row;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+.rosa{
+    margin-right: 1vh;
+}
+.amarillo{
+    margin-right: 1vh;
+}
+.verde{
+    margin-right: 1vh;
+}
+.rosa img{
+    height: 15vh;
+    width: 15vh;
+}
+.amarillo img{
+    height: 15vh;
+    width: 15vh;
+}
+.verde img{
+    height: 15vh;
+    width: 15vh;
+}
+/*ACCESORIOS*/
+.accesorio{
+    display: flex;
+    flex-direction: row;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.guitarra{
+    margin-right: 1vh;
+}
+.notebook{
+    margin-right: 1vh;
+}
+.pelota{
+    margin-right: 1vh;
+}
+.guitarra img{
+    height: 15vh;
+    width: 15vh;
+}
+.notebook img{
+    height: 15vh;
+    width: 15vh;
+}
+.pelota img{
+    height: 15vh;
+    width: 15vh;
+}
+.header{
+    display: flex;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    align-items: center;
+    background-color: rgb(106, 182, 135);
+    width: 100%;
+    height: 5vh;
+    padding: 1vh;
+}
+.footer{
+    display: grid;
+    background-color: rgb(106, 182, 135);
+    width: 100%;
+    height: 30vh;
+}
+.footer a{
+    text-decoration: none;
+    font-size: 4vh;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.footer a:hover{
+    box-shadow: 0 0 0.5vh 0 black;
+    width: 10vh;
+    height: 8vh;
+}
+.inicio{
+    display: flex;
+    justify-content: center;
+    margin-top: 5vh;
+}
+.perfil{
+    display: flex;
+    justify-content: center;    
+}
+@media screen and (max-width: 768px) {
+    .perPeluche{
+        display: flex;
+        flex-direction: column;
+    }
+    .personalizacion{
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+    }
+    .footer{
+        display: flex;
+        flex-direction: column;
+        height: 17vh;
+    }
+    .header{
+        display: flex;
+        flex-direction: row;
+        height: 7vh;
+    }
+    .tipo{
+        display: flex;
+        flex-direction: row; 
+    }
+    .color{
+        display: flex;
+        flex-direction: row;    
+    }
+    .accesorio{
+        display: flex;
+        flex-direction: row;  
+    }
+    .tipo img{
+        height: 7vh;
+        width: 7vh;
+    }
+    .color img{
+        height: 7vh;
+        width: 7vh;
+    }
+    .accesorio img{
+        height: 7vh;
+        width: 7vh;
+    }
+}

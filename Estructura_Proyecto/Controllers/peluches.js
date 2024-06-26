@@ -1,8 +1,9 @@
 require('mongoose');
 const peluche = require('../Models/peluches');
 const pel = require('../Models/peluches');
+const usr = require('../Models/user');
 
-const addPeluche = async(tipo, accesorios, coloresDisponibles, nombre) => {
+const addPeluche = async(tipo, accesorios, coloresDisponibles, nombre, req) => {
     const pelu = new pel(
         {
             tipo:tipo,
@@ -15,6 +16,21 @@ const addPeluche = async(tipo, accesorios, coloresDisponibles, nombre) => {
     let peluche = await pelu.save();
     console.log('Peluche nuevo');
     console.log(peluche);
+
+    const identificador = req.user.id;
+    console.log(req.user.id);
+    const existUser = await usr.findById(identificador);
+    console.log(identificador);
+    console.log(existUser);
+    if (existUser) {
+        // Si el usuario existe, añadir el peluche al array "peluches"
+        existUser.peluches.push(peluche);
+        await existUser.save();
+        console.log('Peluche añadido al usuario');
+    } else {
+        console.log('Usuario no encontrado');
+    }
+
     return{peluche};
 }
 

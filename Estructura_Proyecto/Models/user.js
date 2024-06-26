@@ -29,8 +29,10 @@ const usrSchema = new Schema({
         requiered:true
     },
     peluches:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'peluches'
+        nombre:{type:String},
+        tipo:{type:String},
+        accesorios:{type:String},
+        coloresDisponibles:{type:String}
     }]
     
 },{ timestamps:true }).set('toJSON',{

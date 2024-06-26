@@ -2,13 +2,19 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../Controllers/user');
+const usr = require('../Models/user');
 
 //REGISTRO DE USER
 exports.registrar = async(req, res) => {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new user({
+    const cryptoPass = require('crypto')
+        .createHash('sha256')
+        .update(req.body.password)
+        .digest('hex');
+    const user = new usr({
+        name: req.body.name,
+        lastname: req.body.lastname,
         email: req.body.email,
-        password: hashedPassword
+        password: cryptoPass
     });
     try{
         const nuevoUser = await user.save();
@@ -24,22 +30,26 @@ exports.logearse = async(req, res) => {
     const user = await User.getUserByEmail(req.body.email, req, res);
     
     if(user == null){
-    
         return res.status(400).json({ message: 'No se puede encontrar el usuario'});
     }
     try{
+        console.log(user);
         const cryptoPass = require('crypto')
         .createHash('sha256')
         .update(req.body.password)
         .digest('hex');
+        console.log(cryptoPass);
+        console.log(user.password);
+        //console.log(user.email);
         if(cryptoPass === user.password) {
-            const token = jwt.sign(user, process.env.JWT_SECRET);
+            const token = jwt.sign({user:user,id:user._id}, process.env.JWT_SECRET);
             res.json({ token: token });
         } else {
             res.json({ message: 'Contraseña incorrecta'});
         }
     }
     catch(err) {
+        console.log(err);
        res.status(500).json({ message: err.message});
     }
 };

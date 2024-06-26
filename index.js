@@ -8,14 +8,18 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.DB_URL;
 const mongoose = require("mongoose");
 const router = express.Router();
+const cors = require("cors");
 /******/
 const peluches = require("./Estructura_Proyecto/Controllers/peluches");
 const user = require("./Estructura_Proyecto/Controllers/user");
 const auth = require("./Estructura_Proyecto/Controllers/auth");
+const usr = require("./Estructura_Proyecto/Models/user");
 const jwt = require('jsonwebtoken');
 const { send } = require("process");
 const authenticateToken = require("./Estructura_Proyecto/Middleware/autenticateToken");
 const rank = require("./Estructura_Proyecto/Controllers/ranking");
+
+app.use(cors());
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -49,7 +53,7 @@ app.get("/peluches/:nombre",async(req,res) => {
 })
 
 //GET TODOS LOS PELUCHES
-app.get("/peluches",async (req,res) => {
+app.get("/peluches",cors(), async (req,res) => {
     
   try{
     const result = await peluches.getTodosPeluches();
@@ -130,7 +134,7 @@ app.post("/user",async(req,res) => {
   });
 
 //GET DE UN USER
-app.get("/user/:id",async(req,res) => {
+app.get("/user/:id",cors(), async(req,res) => {
   let id = req.params.id;
   try{
     usuario = await user.getUser(id);
@@ -141,7 +145,7 @@ app.get("/user/:id",async(req,res) => {
 });
 
 //GET DE TODOS LOS USERS
-app.get("/user",async(req,res) => {
+app.get("/user",cors(), async(req,res) => {
   try{
     const result = await user.getAllUsers();
     res.status(200).send(result);
@@ -179,14 +183,20 @@ app.delete("/user/:id",async(req,res) => {
   }
 });
 
+//BORRAR PELUCHE DEL USUARIO
+app.delete("/borrarPeluches",authenticateToken, user.borrarPeluches);
+
+//PELUCHES DEL USUARIO
+app.get("/pelusUser",authenticateToken, user.getPeluches);
+
 //REGISTRARSE
 app.post("/register",auth.registrar);
 
 //INICIAR SESION
-app.post("/login", auth.logearse);
+app.post("/login",cors(), auth.logearse);
 
 //RANKING DE LOS PELUCHES MAS PERSONALIZADOS
-app.get("/ranking", rank.ranking);
+app.get("/ranking", cors(), rank.ranking);
 
 //ENDPOINT PRIVADO, CREACION DE PELUCHE
 app.post("/creacion",authenticateToken, async(req,res) => {
@@ -195,13 +205,17 @@ app.post("/creacion",authenticateToken, async(req,res) => {
   let accesorios = req.body.accesorios;
   let coloresDisponibles = req.body.coloresDisponibles;
   try{
-    const nuevoPeluche = await peluches.addPeluche(tipo,accesorios,coloresDisponibles,nombre);
-    await user.editUser(req.user.email, {$push: {peluches:nuevoPeluche._id}});
+    const nuevoPeluche = await peluches.addPeluche(tipo,accesorios,coloresDisponibles,nombre,req);
+    const user = await usr.findById(req.user.id);
+    if(!user){
+      return res.status(404).json({message:"No encontrado"});
+    }
     res.status(201).json(nuevoPeluche);
   }catch(err){
     console.log(err);
     res.status(400).json({message:err.message});
   }
+  
 })
 
 app.listen(PORT,()=>{
